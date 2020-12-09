@@ -1,0 +1,105 @@
+.table-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -7px 7px 10px -10px rgba(0,0,0,0.4), 7px -7px 10px -10px rgba(0,0,0,0.3);
+  font-size: 12px;
+
+  .new-row-row {
+    width: 100%;
+    padding: 16px;
+
+    .material-icons {
+      font-size: 18px;
+    }
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(25px, 1fr) );
+  }
+
+  .row-title, .row-item {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    &.title {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      input {
+        text-align: center;
+      }
+
+      .company-logo {
+        width: 50px;
+        height: 50px;
+        background-color: #eeeeee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 8px;
+    
+        .add-column {
+          color: #666666;
+          font-size: 18px;
+
+        }
+      }
+
+      .delete-column {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: #666666;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .row-title .material-icons {
+    color: red;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 10px;
+    color: #666666;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    &.small-caps-button {
+      flex-direction: row;
+    }
+
+    &:hover, :focus {
+      color: blue;
+      cursor: pointer;
+
+      .company-logo .material-icons.add-column {
+        color: green;
+      }
+    }
+  }
+
+  input {
+    width:100%;
+    border: none;
+    overflow-x: hidden;
+  }
+}
