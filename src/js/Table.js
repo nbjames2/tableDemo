@@ -1,4 +1,7 @@
 import React from 'react';
+import CreateRow from './Row';
+import RingMeter from './RingMeter';
+import Logo from './Logo';
 import '../css/table.scss';
 
 /**
@@ -8,7 +11,9 @@ import '../css/table.scss';
  *     id: String,
  *     type: 'text' or 'number',
  *     open: Boolean,
- *     parentId: String
+ *     subs: {
+ *      <Row Object>
+ *     }
  *   },
  * }
  *
@@ -35,33 +40,12 @@ import '../css/table.scss';
  */
 
 const Table = ({ rows, columns, modifyRow, modifyColumn }) => {
-  // parses data and creates the row for the row passed in
-  function createRow (row) {
-    return (
-      <div className='table-row' id={row.id}>
-        <div className='row-title'>
-          <input type='text' value={row.title} onInput={(e) => modifyRow('modify', row.id, { title: e.target.value })} />
-          <span class='material-icons' onClick={() => modifyRow('delete', row.id)}>cancel</span>
-        </div>
-        {/* TODO: Add nesting rows ability */}
-        {columns.map((column, index) => {
-          return (
-            <div className='row-item' key={index}>
-              <input type={row.type} value={column[row.id]} onInput={(e) => modifyColumn('modify', index, { [row.id]: e.target.value })} />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
   // creates array of custom rows elements
   function renderTable () {
     const rowsArray = [];
     const rowKeys = Object.keys(rows);
     for (const row of rowKeys) {
-      console.log(row);
-      rowsArray.push(createRow(rows[row]));
+      rowsArray.push(<CreateRow row={rows[row]} columns={columns} modifyColumn={modifyColumn} modifyRow={modifyRow} />);
     }
     return rowsArray;
   }
@@ -72,7 +56,7 @@ const Table = ({ rows, columns, modifyRow, modifyColumn }) => {
       <div className='new-row-row'>
         <button className='small-caps-button' onClick={() => modifyRow('add', null, { title: 'New row', id: `new-row-${Object.keys(rows).length + 1}`, type: 'text' })}>
           ADD CRITERIA
-          <span class='material-icons'>
+          <span className='material-icons'>
             arrow_drop_down
           </span>
         </button>
@@ -80,26 +64,36 @@ const Table = ({ rows, columns, modifyRow, modifyColumn }) => {
       {/* render the title row */}
       <div className='table-row'>
         <div className='row-title title'>
-          <button className='button-lite' onClick={() => modifyColumn('add', columns.length + 1, { 'add-title': 'New company' })}>
-            <div className='company-logo'>
-              <span class='material-icons add-column'>add_circle</span>
-            </div>
-            Add New Vendor
-          </button>
+          {columns.length >= 4
+            ? <p className='note-text'>Note: To add more vendors to compare you need to first remove one or more vendors. At a time maximum 4 vendors are allowed to compare.</p>
+            : (
+              <button className='button-lite' onClick={() => modifyColumn('add', columns.length + 1, { 'add-title': 'New company' })}>
+                <div className='company-logo'>
+                  <span className='material-icons add-column'>add_circle</span>
+                </div>
+                Add New Vendor
+              </button>
+              )}
         </div>
         <>
           {columns.map((column, index) => {
             return (
               <div className='row-item title' key={index}>
-                <div className='company-logo'>
-                  <img src='' alt={'logo for ' + column['add-title']} />
-                </div>
+                <Logo column={column} modifyColumn={modifyColumn} index={index} />
                 <input type='text' value={column['add-title']} onInput={(e) => modifyColumn('modify', index, { 'add-title': e.target.value })} />
-                <span class='material-icons delete-column' onClick={() => modifyColumn('delete', index)}>close</span>
+                <span className='material-icons delete-column' onClick={() => modifyColumn('delete', index)}>close</span>
               </div>
             );
           })}
         </>
+      </div>
+      <div className='table-row' id='overall-score-row'>
+        <div className='row-title score-title'>
+          Overall Score
+        </div>
+        {columns.map((column, index) => {
+          return <RingMeter column={column} key={column['add-title']} index={index} modifyColumn={modifyColumn} />;
+        })}
       </div>
       {/* TODO: add overall score row */}
       {renderTable()}

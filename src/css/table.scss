@@ -18,6 +18,7 @@
   .table-row {
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(25px, 1fr) );
+    opacity: 1;
   }
 
   .row-title, .row-item {
@@ -52,9 +53,13 @@
         .add-column {
           color: #666666;
           font-size: 18px;
+        }
 
+        .material-icons.grey-icon {
+          color: #666666;
         }
       }
+
 
       .delete-column {
         position: absolute;
@@ -67,10 +72,70 @@
     }
   }
 
+  .row-title {
+    &.title-column {
+      padding-left: 24px;
+    }
+
+    &.sub-row {
+      padding-left: 48px;
+
+      .sub-row-title-input {
+        font-size: 12px;
+      }
+    }
+
+    &.score-title {
+      font-size: 14px;
+    }
+  }
+
+  .row-item {
+
+    &.centered {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .score-box {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+  }
+
+  .note-text {
+    text-align: left;
+  }
+
   .row-title .material-icons {
     color: red;
     font-size: 12px;
     cursor: pointer;
+    transform: rotate(0deg);
+    transition: rotate 0.2s ease-in-out;
+
+    &.grey-icon {
+      color: #666666;
+      font-size: 22px;
+    }
+
+    &.open-section {
+      margin-left: -24px;
+    }
+
+    &.rotated-icon {
+      transform: rotate(90deg);
+    }
   }
 
   button {
@@ -101,5 +166,11 @@
     width:100%;
     border: none;
     overflow-x: hidden;
+  }
+
+  .progress-ring__circle {
+    stroke-dasharray: 10 20;
+    transform: rotate(-95deg);
+    transform-origin: center center;
   }
 }

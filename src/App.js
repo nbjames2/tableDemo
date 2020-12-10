@@ -12,25 +12,24 @@ const rowData = {
     title: 'Funding History',
     id: 'funding-history',
     type: 'text',
-    open: false
-  },
-  founded: {
-    title: 'Founded',
-    id: 'founded',
-    type: 'number',
-    parentId: 'funding-history'
-  },
-  'key-investors': {
-    title: 'Key Investors',
-    id: 'key-investors',
-    type: 'text',
-    parentId: 'funding-history'
-  },
-  founders: {
-    title: 'Founders',
-    id: 'founders',
-    type: 'text',
-    parentId: 'funding-history'
+    open: false,
+    subs: {
+      founded: {
+        title: 'Founded',
+        id: 'founded',
+        type: 'number'
+      },
+      'key-investors': {
+        title: 'Key Investors',
+        id: 'key-investors',
+        type: 'text'
+      },
+      founders: {
+        title: 'Founders',
+        id: 'founders',
+        type: 'text'
+      }
+    }
   },
   pricing: {
     title: 'Pricing',
@@ -54,6 +53,7 @@ const columnData = [
     'add-title': 'Dropbox',
     icon: 'dropbox',
     'overall-score': 6,
+    color: '0000FF',
     'product-description': 'Dropbox is a cloud based file management',
     'funding-history': 'Total funding $170m',
     founded: '2007',
@@ -66,6 +66,7 @@ const columnData = [
   {
     'add-title': 'Google Drive',
     icon: 'drive',
+    color: '00ff00',
     'overall-score': 4.5,
     'product-description': 'Store, sync, and share file easily',
     'funding-history': 'Total funding $36.1m',
@@ -80,6 +81,7 @@ const columnData = [
     'add-title': 'SalesForce',
     'overall-score': 6.2,
     icon: 'salesforce',
+    color: '0000FF',
     'product-description': 'SalesForce is a cloud based file storage',
     'funding-history': 'Total funding $756.1m',
     founded: '2002',
@@ -92,6 +94,7 @@ const columnData = [
   {
     'add-title': 'Box',
     icon: 'box',
+    color: 'FF0000',
     'overall-score': 6.1,
     'product-description': 'Box is a modern content management',
     'funding-history': 'Total funding $150m',
@@ -122,7 +125,8 @@ function App () {
       tempRows[change.id] = change;
       setRows(tempRows);
     } else if (action === 'modify') {
-      tempRows[rowId].title = change.title;
+      const objectKey = Object.keys(change)[0];
+      tempRows[rowId][objectKey] = change[objectKey];
       setRows(tempRows);
     } else {
       throw new Error('modifyRows action not supported');
