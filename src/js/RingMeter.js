@@ -51,7 +51,7 @@ function RingMeter ({ column, index, modifyColumn }) {
       {inputOpen || !column['overall-score']
         ? (
           <form onSubmit={(e) => submitScore(e)}>
-            <input type='number' min={0} max={10} value={scoreInputValue} onChange={(e) => setScoreInputValue(e.target.value)} />
+            <input type='number' min={0} max={10} step='any' value={scoreInputValue} onChange={(e) => setScoreInputValue(e.target.value)} />
           </form>)
         : (
           <>
